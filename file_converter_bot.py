@@ -178,8 +178,7 @@ async def handle_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
             pass
 
 
-async def main():
-    # 🔹 Debug log – Railway logs il ith kananam if main actually run aanel
+def main():
     print(">>> Starting Telegram converter bot...")
     app = ApplicationBuilder().token(TOKEN).build()
 
@@ -192,9 +191,9 @@ async def main():
     app.add_handler(MessageHandler(filters.Document.ALL, handle_document))
 
     print("🤖 Bot running...")
-    await app.run_polling()
+    # run_polling handles asyncio loop internally
+    app.run_polling()
 
 
 if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+    main()
