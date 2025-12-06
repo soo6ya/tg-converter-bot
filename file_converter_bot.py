@@ -139,7 +139,7 @@ async def handle_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         elif target == "docx":
             if ext in ("pdf", "doc", "docx"):
-                out_path = convert_with_libre-office(str(download_path), "docx")
+                out_path = convert_with_libreoffice(str(download_path), "docx")
             else:
                 raise ValueError("DOCX output supports PDF/DOC/DOCX as input.")
 
