@@ -10,16 +10,21 @@ from telegram.ext import (
     ContextTypes,
     filters,
 )
+from telegram.constants import ParseMode
 
-# Token from environment variable (Railway il set cheyyum)
+# Token from environment variable (Railway il set cheythittundakanam)
 TOKEN = os.getenv("TELEGRAM_TOKEN")
 if not TOKEN:
     raise RuntimeError("TELEGRAM_TOKEN environment variable not set.")
 
-SOFFICE_PATH = "soffice"  # LibreOffice binary name (Docker image il available aakum)
+SOFFICE_PATH = "soffice"  # LibreOffice binary name (Docker image il available)
 
 
 def convert_with_libreoffice(input_path: str, target_ext: str) -> str:
+    """
+    input_path: full path of original file
+    target_ext: 'pdf', 'docx', 'pptx'
+    """
     input_path = Path(input_path)
     output_dir = input_path.parent
 
@@ -82,7 +87,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "- PDF → DOCX / PPTX\n"
         "- MP4/MKV/MOV → MP3"
     )
-    await update.message.reply_markdown(msg)
+    await update.message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
 
 async def set_mode(update: Update, context: ContextTypes.DEFAULT_TYPE, target: str, label: str):
@@ -174,6 +179,8 @@ async def handle_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def main():
+    # 🔹 Debug log – Railway logs il ith kananam if main actually run aanel
+    print(">>> Starting Telegram converter bot...")
     app = ApplicationBuilder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
